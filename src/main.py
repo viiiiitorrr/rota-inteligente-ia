@@ -1,8 +1,36 @@
-print("Sistema de Rotas Inteligentes iniciado")
+# Rota Inteligente - Simulação de Otimização de Entregas
 
-# exemplo simples de pontos de entrega
-pontos_entrega = ["Centro", "Bairro A", "Bairro B", "Bairro C"]
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
 
-print("Pontos de entrega cadastrados:")
-for ponto in pontos_entrega:
-    print("-", ponto)
+# Dados simulados de entregas (coordenadas x e y)
+dados = {
+    "x": [2, 3, 5, 8, 7, 6, 1, 4, 9, 3],
+    "y": [3, 7, 6, 4, 8, 2, 5, 9, 1, 4]
+}
+
+df = pd.DataFrame(dados)
+
+# Número de entregadores / clusters
+k = 3
+
+# Aplicando K-Means
+kmeans = KMeans(n_clusters=k, random_state=42)
+df["cluster"] = kmeans.fit_predict(df[["x", "y"]])
+
+# Centros dos clusters
+centros = kmeans.cluster_centers_
+
+print("Entregas agrupadas por zona:")
+print(df)
+
+# Plotagem dos resultados
+plt.scatter(df["x"], df["y"], c=df["cluster"])
+plt.scatter(centros[:, 0], centros[:, 1], marker="X", s=200)
+
+plt.title("Agrupamento Inteligente de Entregas (K-Means)")
+plt.xlabel("Coordenada X")
+plt.ylabel("Coordenada Y")
+
+plt.show()
