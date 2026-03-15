@@ -1,0 +1,1 @@
+Pasta destinada a imagens, gráficos e documentação do projeto.
